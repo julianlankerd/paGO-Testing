@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+
+  "name": "paGO Auto-Login Extension",
+  "description": "This extension allows you to not have to manually sign into paGO anymore",
+  "version": "1.0",
+
+  "content_scripts": [
+    {
+      "matches": [/* Must link to paGO page of backend */"http://localhost/Mr.Bince-is-my-Hero%3C3/administrator/index.php?option=com_pago"],
+      "js": ["jquery-3.0.0.min.js", "script.js"]
+    }
+  ],
+
+  "browser_action": {
+   "default_icon": "icon.png",
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+   "activeTab"
+   ]
+}
