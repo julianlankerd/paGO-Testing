@@ -1,2 +1,2 @@
 # paGO-Testing
-This is used for testing paGO, utilizing the Cypress API 
+This is used for testing paGO, with the Cypress API.
