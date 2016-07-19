@@ -3,8 +3,8 @@
 var	username="admin",
 	password="admin",
 	//email="stephen.f@corephp.com",
-	domain="http://localhost/",
-	frontEnd=domain+"Mr.Bince-is-my-Hero%3C3/",
+	domain="http://localhost:8888/",
+	frontEnd=domain+"Joomla_3.5.1-Stable-Full_Package/",
 	backEnd=frontEnd+"administrator/";
 	//origDomain = "http://localhost/Joomla_3.5.1-Stable-Full_Package/"
 
