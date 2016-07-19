@@ -18,7 +18,7 @@ describe('Full paGO Testing',function(){
 			CreateProduct()
 			/*This is going to test the Category Section in the back-end of paGO*/
 			CreateCategory()
-
+				var sexy = "sexy * 2";
 			//Fuck this test
 			//Seriously... Fuck this test
 		})
@@ -26,3 +26,4 @@ describe('Full paGO Testing',function(){
 })
 
 //Selects a random option for each 'select' element that's a child of the region
+/*fdkjhberpiouvheropivhjpeoriuverouihrohiu*/
