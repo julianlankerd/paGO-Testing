@@ -106,15 +106,13 @@ function charSet(type){
 			"<em>",
 			"<i>",
 			"<u>",
-			"<s>",
-			"<br>"
+			"<s>"
 			];
 			newObj.ends=[
 			"</em>",
 			"</i>",
 			"</u>",
-			"</s>",
-			"</br>"
+			"</s>"
 			];
 			break;
 		default://Go on and add your own character set!
@@ -164,53 +162,81 @@ checkSets("kybdChars");
 checkSets("HTMLText");*/
 
 //TEST THIS!
-function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Generates a random string; geared to work with HTML tags and text
-	var callNum=0;
-	var callEmbed=Math.floor(Math.random()*$argsObj.maxLen);//The instance that the embedded string should be embedded in
-	var posEmbed=Math.floor(Math.random()*3);//The position in which the string should be embedded within its instance
+function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Generates a random string; geared to work with HTML tags and text.  
+	var calls=$argsObj.maxLen;
+	var flag=false;
+	var embedded=false;
 	var generator=function($a=1,$b=1,$c=ascii,$d=""){
-		var maxLen=$a,minLen=$b,charSet=$c,embed=$d;//Makes reading easier
-		var starts=charSet.starts,ends=charSet.ends;//
-		var len=Math.floor(Math.random()*(maxLen+1-minLen)+minLen);//Can make obsolete at some point
-		var strArr=["","","","","","",""];
+		if(embedded){
+			flag=false;
+		}
+		calls--;
+		var maxLen=$a,minLen=$b,charSet=$c,embed=$d;
+		var starts=charSet.starts,ends=charSet.ends;
+		var result="";
+		var len=Math.floor(Math.random()*(maxLen+1-minLen)+minLen);
+		var logger=Math.random();
+		var posEmbed=-1;
+		var positions=[false,false,false];
+		var strArr=["","","","","","","",""];
+		var randNum,posibilities,index;
 		if(len>0){//Die if we're done
-			if(callNum==callEmbed){	//If we're in the right position
-				switch(posEmbed){
-					case 0:
-						strArr[0]=embed;
-						break;
-					case 1:
-						strArr[2]=embed;
-						break;
-					case 2:
-						strArr[5]=embed;
-						break;
-					default:
-						break;
-				}
+			if(logger<1/(calls+1)&&!flag&&!embedded){
+				flag=true;
+				embedded=true;
+				posEmbed=Math.floor(Math.random()*3);
 			}
-			callNum++;
-			var index=Math.floor(Math.random()*starts.length);
-			strArr[1]=starts[index];
-			strArr[4]=ends[index];
-			var lenSub=Math.floor(Math.random()*len);	//The maximum possible value of lenSub is len-1, and the minimum possible value is 0
-			var lenSide=len-lenSub-1;			//lenSub+lenSide==len-1
-			strArr[3]=generator(lenSub,lenSub,charSet,embed);
-			strArr[6]=generator(lenSide,lenSide,charSet,embed);
+			var randNum=Math.floor(Math.random()*3)+1;
+			var posibilities=Object.keys(positions);
+			var index=Math.floor(Math.random()*starts.length)
+			strArr[2]=starts[index];
+			strArr[5]=ends[index];
+			while(randNum>0){
+				randNum--;
+				var randPos=Math.floor(Math.random()*posibilities.length);
+				positions[posibilities[randPos]]=true;
+				posibilities=posibilities.slice(0,randPos).concat(posibilities.slice(randPos+1,posibilities.length));
+			}
 		}
-		if(Math.floor(Math.random()*2)){//Scramble the embedded string and the random string that it's adjacent to around
-			var temp=strArr[2];
-			strArr[2]=strArr[3];
-			strArr[3]=temp;
-			temp=strArr[5];
-			strArr[5]=strArr[6];
-			strArr[6]=temp;
+		if(flag&&embedded){
+			switch(posEmbed){
+				case 0:
+					strArr[0]=embed;
+					break;
+				case 1:
+					strArr[3]=embed;
+					break;
+				case 2:
+					strArr[6]=embed;
+					break;
+				default:
+					break;
+			}
 		}
-		var result="";				//Build the return and result it
-		for(var i=0;i<strArr.length;i++){	//Yes, I did just say that.  
-			result+=strArr[i];		//
-		}					//
-		return result;				//
+		if(positions[0]&&calls>0){
+			strArr[1]=generator(maxLen-1,minLen-1,charSet,embed);
+		}
+		if(positions[1]&&calls>0){
+			strArr[4]=generator(maxLen-1,minLen-1,charSet,embed);
+		}
+		if(positions[2]&&calls>0){
+			strArr[7]=generator(maxLen-1,minLen-1,charSet,embed);
+		}
+		if(Math.floor(Math.random()*2)){
+			var temp=strArr[0];
+			strArr[0]=strArr[1];
+			strArr[1]=temp;
+			temp=strArr[3];
+			strArr[3]=strArr[4];
+			strArr[4]=temp;
+			temp=strArr[6];
+			strArr[6]=strArr[7];
+			strArr[7]=temp;
+		}
+		for(var i=0;i<strArr.length;i++){
+			result+=strArr[i];
+		}
+		return result;
 	}
 	return generator($argsObj.maxLen,$argsObj.minLen,$argsObj.charSet,$argsObj.embed);
 }
@@ -260,16 +286,18 @@ function selectFrom($elements,$property,$value){
 
 //Used to automatically login to Joomla!	
 function joomlalogin(){
-	cy.pause();
-	var loginWindow=window.open(backEnd+"index.php?option=com_pago");
-	setTimeout(function(){
-		loginWindow.close();
-	},3000);
-	setTimeout(function(){
-		cy.resume();
-		//cy.visit(backEnd + "index.php?option=com_pago");
-		cy.end();
-	},4000);
+	 cy.pause();
+        var loginWindow = window.open(backEnd + "index.php?option=com_pago");
+        setTimeout(function () {
+            loginWindow.close();
+        }, 3000);
+        setTimeout(function () {
+
+            cy.resume();
+            //cy.visit(backEnd + "index.php?option=com_pago");
+            cy.end();
+
+        }, 4000);
 }
 
 //Selects a random option for each 'select' element that's a child of the region
@@ -286,3 +314,58 @@ function withinSelectRandom($region){
         findOptions[TheOne].setAttribute('selected','selected');
     }
 }
+
+/*This is the new randomizer*/
+/*
+function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Generates a random string; geared to work with HTML tags and text
+    var callNum=0;
+    var callEmbed=Math.floor(Math.random()*$argsObj.maxLen);//The instance that the embedded string should be embedded in
+    var posEmbed=Math.floor(Math.random()*3);//The position in which the string should be embedded within its instance
+    var generator=function($a=1,$b=1,$c=ascii,$d=""){
+        var maxLen=$a,minLen=$b,charSet=$c,embed=$d;//Makes reading easier
+        var starts=charSet.starts,ends=charSet.ends;//
+        var len=Math.floor(Math.random()*(maxLen+1-minLen)+minLen);//Can make obsolete at some point
+        var strArr=["","","","","","",""];
+        if(len>0){//Die if we're done
+            if(callNum==callEmbed){    //If we're in the right position
+                switch(posEmbed){
+                    case 0:
+                        strArr[0]=embed;
+                        break;
+                    case 1:
+                        strArr[2]=embed;
+                        break;
+                    case 2:
+                        strArr[5]=embed;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            callNum++;
+            var index=Math.floor(Math.random()*starts.length);
+            strArr[1]=starts[index];
+            strArr[4]=ends[index];
+            var lenSub=Math.floor(Math.random()*len);    //The maximum possible value of lenSub is len-1, and the minimum possible value is 0
+            var lenSide=len-lenSub-1;            //lenSub+lenSide==len-1
+            strArr[3]=generator(lenSub,lenSub,charSet,embed);
+            strArr[6]=generator(lenSide,lenSide,charSet,embed);
+        }
+        if(Math.floor(Math.random()*2)){//Scramble the embedded string and the random string that it's adjacent to around
+            var temp=strArr[2];
+            strArr[2]=strArr[3];
+            strArr[3]=temp;
+            temp=strArr[5];
+            strArr[5]=strArr[6];
+            strArr[6]=temp;
+        }
+        var result="";                //Build the return and result it
+        for(var i=0;i<strArr.length;i++){    //Yes, I did just say that.  
+            result+=strArr[i];        //
+        }                    //
+        return result;                //
+    }
+    return generator($argsObj.maxLen,$argsObj.minLen,$argsObj.charSet,$argsObj.embed);
+}
+
+*/
