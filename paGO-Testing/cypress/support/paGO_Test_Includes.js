@@ -315,25 +315,7 @@ function withinSelectRandom($region){
     }
 }
 
-
-
-/*var x = Cypress.$('#tabs > div.tabs-content.pg-pad-20.pg-white-bckg.pg-border').find('select');
-console.log(x)
-for(var i=0;i<x.length;i++){
-    for(var j=0;j<x[i].length;j++){
-        x[i].children[j].removeAttribute('selected');
-    }
-}
-for(var i=0;i<x.length;i++){
-    var findOptions = x[i].children;
-    var TheOne = Math.floor(Math.random()*findOptions.length);
-    console.log(findOptions)
-    console.log(TheOne);
-    console.log(findOptions[TheOne]);
-    findOptions[TheOne].setAttribute('selected','selected');
-    console.log(findOpsiont[TheOne])
-}*/
-//This is the new randomizer
+/*This is the new randomizer*/
 /*
 function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Generates a random string; geared to work with HTML tags and text
     var callNum=0;

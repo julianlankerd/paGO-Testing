@@ -7,3 +7,11 @@ Google Extension readme
 3. Start up Cypress, run a project, run Cypress's Chrome, go to the extensions page in chrome, activate developer mode, click on "Load unpacked Extension..." and load the "paGO auto-login extension". 
 
 4. Everything should be fine after that.
+
+
+
+
+Run CI
+
+1. Go to the project directory that you want to run.
+2. Once you are there you can start up the test with: "cypress run" or if you'd like

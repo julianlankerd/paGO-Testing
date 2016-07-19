@@ -1,11 +1,3 @@
-/*function Shipping(){
-	cy
-	.get('#ui-id-5').click()
-	var t  = document.querySelectorAll('[type="text"]');
-	cy.type(randomString({maxLen:3,minLen:0,charSet:nums})+'.'+randomString({maxLen:5,minLen:1,charSet:nums}))
-}*/
-
-
 /*PagoDash will be used to access the backend of paGO correctly*/
 function PagoDash(){
 	joomlalogin()
@@ -15,7 +7,7 @@ function PagoDash(){
 }
 /*This is going to fill out the products "GENERAL" page*/
 function productGeneral(){
-	var itemName=randomString({maxLen:20,minLen:1,charSet:centerKybd});
+var itemName=randomString({maxLen:20,minLen:1,charSet:centerKybd});
 	cy.get('#params_name').type(itemName)													
 	.get('#params_sku').type(randomString({maxLen:20,minLen:1,charSet:centerKybd}))
 	.get("#params_alias").type(randomString({maxLen:20,minLen:1,charSet:centerKybd}))
@@ -36,14 +28,11 @@ function productGeneral(){
 
 function errorScan(){
     var errorFields = Cypress.$('label.label-error');
-//    console.log(errorFields,errorFields.length);
-//    while(errorFields.length>0){
 		for(var j=0;j<errorFields.length;j++){
 			errorFields[j].getParent().getElements('input')[0].value='123';
 		}
 		cy.get('#pago_toolbar > button:nth-child(1)').click();
 		errorFields=Cypress.$('label.label-error');
-//	}
 }
 
 function Input(){
@@ -52,79 +41,45 @@ function Input(){
 		inputFields[i].value=randomString({maxLen:5,minLen:0,charSet:nums.splice(centerKybd.splice(centerKybd.splice(centerKybd.splice(centerKybd))))})
 	}
 	cy.get("#pago_toolbar > button:nth-child(2)").click();
-	errorScan
 }
-
-//function viewTabs(selector){
-//	var allTabs = Cypress.$(selector);
-//	for(var i=0;i<allTabs.length;i++){
-//		console.log(allTabs[i],allTabs[i].click);
-//	    allTabs[i].click();
-//		var queriedFields = Cypress.$('[type="text"]')   //.type(randomString({maxLen:3,minLen:0,charSet:nums})+'.'+randomString({maxLen:5,minLen:1,charSet:nums}));
-//		for(var j=0;j<queriedFields.length;j++){
-//			queriedFields[j].value=randomString({maxLen:5,minLen:0,charSet:nums.splice(centerKybd.splice(centerKybd.splice(centerKybd.splice(centerKybd))))})
-//			cy.get('#pago_toolbar > button.apply.pg-btn-medium.pg-btn-dark.pg-btn-green').click()
-//		}
-//	}
-//}
 
 /*This function will generate a random product*/
 
 function CreateProduct(){
-		cy
-		.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop > span').click()//Click on the 'caret' then Drop the shop menu down
-		.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > div > ul > li:nth-child(1) > a').click()	
-		.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > a').click()//Go to the shop (product view)
-		.get('#limit').select('All',{force:true})//Show 'all' items
-		.get('#pago_toolbar > button.new.pg-btn-medium.pg-btn-green.pg-btn-dark').click()//Make a new item
-		/*This is going to fill out the products "GENERAL" page*/
-		//productGeneral()
+	cy
+	.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop > span').click()//Click on the 'caret' then Drop the shop menu down
+	.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > div > ul > li:nth-child(1) > a').click()	
+	.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > a').click()//Go to the shop (product view)
+	.get('#limit').select('All',{force:true})//Show 'all' items
+	.get('#pago_toolbar > button.new.pg-btn-medium.pg-btn-green.pg-btn-dark').click()//Make a new item
+	/*This is going to fill out the products "GENERAL" page*/
+	//productGeneral()
+	
+	/*Firing input into all input text fields on all tabs*/
+	cy.then(function($aaa){
+		Input()
+		cy.then(function($bbb){
+			errorScan()
+		}).end()
+	}).end()
 		
-		/*Move over to the 'Shipping' tab*/
-			
-		
-			//return Viewtabs()
-				cy.then(function($aaa){
-					//cy.get('#ui-id-1').click()
-					//console.log(Viewtabs('#tabs > div.pg-tabs > ul > li > a'))
-//					viewTabs('#tabs > div.pg-tabs > ul > li > a');
-					Input()
-//					errorScan('#tabs > div.pg-tabs > ul > li > a');
-
-					cy.then(function($bbb){
-						errorScan()
-
-					}).end()
-
-				}).end()
-
-			
-			//foo()
-		
-		/*cy.pause()
-		cy.get('#pago_toolbar > button.apply.pg-btn-medium.pg-btn-dark.pg-btn-green').click()	//and save it
-		.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > a').click()//Go to the shop (product view)
-		
-		/*Go back to the item*/
-		/*cy.then(function($a){	
-			return selectFrom($("#pg-items-manager > tbody > tr > td.pg-item-name > div > span > a"),"textContent",itemName)
-		}).click({force: true})
-		/*Use the other save button and exit*/
-		/*cy.get("#pago_toolbar > button:nth-child(1)").click()
-		cy.then(function($a){													//Go back again
-			return selectFrom($("#pg-items-manager > tbody > tr > td.pg-item-name > div > span > a"),"textContent",itemName);
-		}).click({force: true})															
-		cy.get("#pago_toolbar > button:nth-child(3)").click()//Save and new
-		cy.get("#pago_toolbar > button.cancel.pg-btn-medium.pg-btn-dark").click()//Cancel the new item
-		
-
-		/*This will begin to  work on the "Discounts" tab*/
-		//cy.get('#ui-id-2').click()
-
-		/*Don't forget to check the front-end for the item that was created!*/
-		/*This will delete the item(s) generated*/
-		/*.get('#checkall').check({force:true})				
-		.get('#pago_toolbar > button.delete').click({force:true})	*/
+	//cy.get('#pago_toolbar > button.apply.pg-btn-medium.pg-btn-dark.pg-btn-green').click()	//and save it
+	//.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > a').click()//Go to the shop (product view)
+	/*Go back to the item*/
+	/*cy.then(function($a){	
+		return selectFrom($("#pg-items-manager > tbody > tr > td.pg-item-name > div > span > a"),"textContent",itemName)
+	}).click({force: true})
+	/*Use the other save button and exit*/
+	/*cy.get("#pago_toolbar > button:nth-child(1)").click()
+	cy.then(function($a){													//Go back again
+		return selectFrom($("#pg-items-manager > tbody > tr > td.pg-item-name > div > span > a"),"textContent",itemName);
+	}).click({force: true})														
+	cy.get("#pago_toolbar > button:nth-child(3)").click()//Save and new
+	cy.get("#pago_toolbar > button.cancel.pg-btn-medium.pg-btn-dark").click()//Cancel the new item
+	/*Don't forget to check the front-end for the item that was created!*/
+	/*This will delete the item(s) generated*/
+	/*.get('#checkall').check({force:true})				
+	.get('#pago_toolbar > button.delete').click({force:true})	*/
 }
 
 /*This will Begin testing the Categories section*/

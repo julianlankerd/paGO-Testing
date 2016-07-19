@@ -11,6 +11,7 @@ describe('Full paGO Testing',function(){
 
 	context('paGO back-end',function(){
 		it('Do everything in the back-end with this \'it\' function since otherwise it won\'t work :(',function(){
+				
 			/*Go to the back end of Joomla! and navigate to the paGO dashboard*/
 			PagoDash()
 			/*This is going to begin testing the Products Section in the back-end of paGO*/
