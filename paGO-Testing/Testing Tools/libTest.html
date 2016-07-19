@@ -156,53 +156,54 @@
 			//Suspects: flag=>(callNum,callEmbed,len=>(maxLen,minLen))
 			function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Generates a random string; geared to work with HTML tags and text
 				var callNum=0;
-				var callEmbed=Math.floor(Math.random()*$argsObj.maxLen);//The instance that the embedded string should be embedded in
+				var len=Math.floor(Math.random()*($argsObj.maxLen+1-$argsObj.minLen)+$argsObj.minLen);//Determines the length of the resultant string
+				var callEmbed=Math.floor(Math.random()*len);//The instance that the embedded string should be embedded in
 				var posEmbed=Math.floor(Math.random()*3);//The position in which the string should be embedded within its instance
-				var generator=function($a=1,$b=1,$c=ascii,$d=""){
-					var maxLen=$a,minLen=$b,charSet=$c,embed=$d;//Makes reading easier
-					var starts=charSet.starts,ends=charSet.ends;//
-					var len=Math.floor(Math.random()*(maxLen+1-minLen)+minLen);//Can make obsolete at some point
-					var strArr=["","","","","","",""];
-					if(len>0){//Die if we're done
-						if(callNum==callEmbed){	//If we're in the right position
-							switch(posEmbed){
-								case 0:
-									strArr[0]=embed;
-									break;
-								case 1:
-									strArr[2]=embed;
-									break;
-								case 2:
-									strArr[5]=embed;
-									break;
-								default:
-									break;
-							}
-						}
+				var starts=$argsObj.charSet.starts,	//Make some variables easier to access
+				ends=$argsObj.charSet.ends,		//
+				embed=$argsObj.embed;			//
+				var generator=function(iterations=0){//This is easier to make recursive if it's named
+					var strArr=["","","","","","",""];//The resultant string will be built with this
+					if(iterations>0){//Die if we're done
+						if(callNum==callEmbed){			//If we're in the right position then add in the embedded string
+							switch(posEmbed){		//
+								case 0:			//
+									strArr[0]=embed;//
+									break;		//
+								case 1:			//
+									strArr[2]=embed;//
+									break;		//
+								case 2:			//
+									strArr[5]=embed;//
+									break;		//
+								default:		//
+									break;		//
+							}				//
+						}					//
 						callNum++;
-						var index=Math.floor(Math.random()*starts.length);
-						strArr[1]=starts[index];
-						strArr[4]=ends[index];
-						var lenSub=Math.floor(Math.random()*len);	//The maximum possible value of lenSub is len-1, and the minimum possible value is 0
-						var lenSide=len-lenSub-1;			//lenSub+lenSide==len-1
-						strArr[3]=generator(lenSub,lenSub,charSet,embed);
-						strArr[6]=generator(lenSide,lenSide,charSet,embed);
+						var index=Math.floor(Math.random()*starts.length);	//Adds in the random characters
+						strArr[1]=starts[index];				//
+						strArr[4]=ends[index];					//
+						var lenSub=Math.floor(Math.random()*iterations);//The maximum possible value of lenSub is iterations-1, and the minimum possible value is 0
+						var lenSide=iterations-1-lenSub;		//lenSub+lenSide==iterations-1
+						strArr[3]=generator(lenSub);
+						strArr[6]=generator(lenSide);
 					}
-					if(Math.floor(Math.random()*2)){//Scramble the embedded string and the random string that it's adjacent to around
-						var temp=strArr[2];
-						strArr[2]=strArr[3];
-						strArr[3]=temp;
-						temp=strArr[5];
-						strArr[5]=strArr[6];
-						strArr[6]=temp;
-					}
+					if(callNum==callEmbed&&Math.floor(Math.random()*2)){	//Scramble the embedded string and the random string that it's adjacent to around
+						var temp=strArr[2];				//
+						strArr[2]=strArr[3];				//
+						strArr[3]=temp;					//
+						temp=strArr[5];					//
+						strArr[5]=strArr[6];				//
+						strArr[6]=temp;					//
+					}							//
 					var result="";				//Build the return and result it
 					for(var i=0;i<strArr.length;i++){	//Yes, I did just say that.  
 						result+=strArr[i];		//
 					}					//
 					return result;				//
 				}
-				return generator($argsObj.maxLen,$argsObj.minLen,$argsObj.charSet,$argsObj.embed);
+				return generator(len);//GO!
 			}
 			(function(){
 				var download=function(filename,text){
