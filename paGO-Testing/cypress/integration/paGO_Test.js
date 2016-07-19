@@ -18,8 +18,6 @@ describe('Full paGO Testing',function(){
 			CreateProduct()
 			/*This is going to test the Category Section in the back-end of paGO*/
 			CreateCategory()
-
-			//Fuck this test
 		})
 	})
 })
