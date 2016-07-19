@@ -166,14 +166,15 @@ checkSets("HTMLText");*/
 //TEST THIS!
 function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Generates a random string; geared to work with HTML tags and text
 	var callNum=0;
-	var callEmbed=Math.floor(Math.random()*$argsObj.maxLen);//The instance that the embedded string should be embedded in
+	var len=Math.floor(Math.random()*($argsObj.maxLen+1-$argsObj.minLen)+$argsObj.minLen);
+	var callEmbed=Math.floor(Math.random()*len);//The instance that the embedded string should be embedded in
 	var posEmbed=Math.floor(Math.random()*3);//The position in which the string should be embedded within its instance
-	var generator=function($a=1,$b=1,$c=ascii,$d=""){
-		var maxLen=$a,minLen=$b,charSet=$c,embed=$d;//Makes reading easier
-		var starts=charSet.starts,ends=charSet.ends;//
-		var len=Math.floor(Math.random()*(maxLen+1-minLen)+minLen);//Can make obsolete at some point
+	var starts=$argsObj.charSet.starts,
+	ends=$argsObj.charSet.ends,
+	embed=$argsObj.embed;
+	var generator=function(iterations=0){
 		var strArr=["","","","","","",""];
-		if(len>0){//Die if we're done
+		if(iterations>0){//Die if we're done
 			if(callNum==callEmbed){	//If we're in the right position
 				switch(posEmbed){
 					case 0:
@@ -193,10 +194,10 @@ function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Gen
 			var index=Math.floor(Math.random()*starts.length);
 			strArr[1]=starts[index];
 			strArr[4]=ends[index];
-			var lenSub=Math.floor(Math.random()*len);	//The maximum possible value of lenSub is len-1, and the minimum possible value is 0
-			var lenSide=len-lenSub-1;			//lenSub+lenSide==len-1
-			strArr[3]=generator(lenSub,lenSub,charSet,embed);
-			strArr[6]=generator(lenSide,lenSide,charSet,embed);
+			var lenSub=Math.floor(Math.random()*iterations);//The maximum possible value of lenSub is iterations-1, and the minimum possible value is 0
+			var lenSide=iterations-lenSub-1;		//lenSub+lenSide==iterations-1
+			strArr[3]=generator(lenSub);
+			strArr[6]=generator(lenSide);
 		}
 		if(Math.floor(Math.random()*2)){//Scramble the embedded string and the random string that it's adjacent to around
 			var temp=strArr[2];
@@ -212,7 +213,7 @@ function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Gen
 		}					//
 		return result;				//
 	}
-	return generator($argsObj.maxLen,$argsObj.minLen,$argsObj.charSet,$argsObj.embed);
+	return generator(len);
 }
 
 function checkExists($a){//Needs work
