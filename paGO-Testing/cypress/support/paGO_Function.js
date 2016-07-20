@@ -51,6 +51,15 @@ function CreateProduct(){
 		}).end()
 	}).end()
 		
+
+	cy.then(function(){
+		var RadioFields = document.querySelectorAll('.radio')
+		for(var i=0;i<RadioFields.length;i++){
+			var radioChoices = RadioFields[i].getElements('input')
+			var TheOne=Math.floor(Math.random()*radioChoices.length);
+			radioChoices[TheOne].setAttribute('checked','checked')
+		}
+	})	
 	//.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > a').click()//Go to the shop (product view)
 	/*Go back to the item*/
 	/*cy.then(function($a){	

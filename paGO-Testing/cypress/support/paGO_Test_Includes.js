@@ -274,16 +274,16 @@ function joomlalogin(){
 }
 
 //Selects a random option for each 'select' element that's a child of the region
-function withinSelectRandom($region){
-    var x=Cypress.$($region).find('select');
-    for(var i=0;i<x.length;i++){
-        for(var j=0;j<x[i].length;j++){
-            x[i].children[j].removeAttribute('selected');
-        }
-    }
-    for(var i=0;i<x.length;i++){
-        var findOptions=x[i].children;
-        var TheOne=Math.floor(Math.random()*findOptions.length);
-        findOptions[TheOne].setAttribute('selected','selected');
-    }
+function withinSelectRandom($region,$selector='select',$attribute='selected'){
+   var x=Cypress.$($region).find($selector);
+   for(var i=0;i<x.length;i++){
+       for(var j=0;j<x[i].length;j++){
+           x[i].children[j].removeAttribute($attribute);
+       }
+   }
+   for(var i=0;i<x.length;i++){
+       var findOptions=x[i].children;
+       var TheOne=Math.floor(Math.random()*findOptions.length);
+       findOptions[TheOne].setAttribute($attribute,$attribute);
+   }
 }
