@@ -46,7 +46,7 @@ function charSet(type){
 		case "empty":
 			break;
 		case "whiteSpace":
-			var spaces="\f\n\r\t\v";
+			var spaces="\f\n\r\t\v ";
 			for(var i=0;i<spaces.length;i++){
 				newObj.starts[i]=spaces[i];
 				newObj.ends[i]='';
@@ -199,7 +199,7 @@ function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Gen
 			strArr[3]=generator(lenSub);
 			strArr[6]=generator(lenSide);
 		}
-		if(callNum==callEmbed&&Math.floor(Math.random()*2)){	//Scramble the embedded string and the random string that it's adjacent to around
+		if((callNum==callEmbed)&&(Math.floor(Math.random()*2))){	//Scramble the embedded string and the random string that it's adjacent to around
 			var temp=strArr[2];				//
 			strArr[2]=strArr[3];				//
 			strArr[3]=temp;					//
