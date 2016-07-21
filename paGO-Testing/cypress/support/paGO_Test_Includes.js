@@ -1,12 +1,4 @@
-//paGO Front-End Test Include File
 
-var	username="admin",
-	password="admin",
-	//email="stephen.f@corephp.com",
-	domain="http://localhost/",
-	frontEnd=domain+"Mr.Bince-is-my-Hero%3C3/",
-	backEnd=frontEnd+"administrator/";
-	//origDomain = "http://localhost/Joomla_3.5.1-Stable-Full_Package/"
 
 var	_=Cypress._,
 	$=Cypress.$;
@@ -259,7 +251,7 @@ function selectFrom($elements,$property,$value){
 	return result;
 }
 
-//Used to automatically login to Joomla!	
+//Used to automatically login to the backend of Joomla!	
 function joomlalogin(){
 	cy.pause();
 	var loginWindow=window.open(backEnd+"index.php?option=com_pago");
@@ -274,16 +266,20 @@ function joomlalogin(){
 }
 
 //Selects a random option for each 'select' element that's a child of the region
-function withinSelectRandom($region,$selector='select',$attribute='selected'){
-   var x=Cypress.$($region).find($selector);
-   for(var i=0;i<x.length;i++){
-       for(var j=0;j<x[i].length;j++){
-           x[i].children[j].removeAttribute($attribute);
-       }
-   }
-   for(var i=0;i<x.length;i++){
-       var findOptions=x[i].children;
+function SelectRandom($region,$selector,$attribute='selected'){
+	/*TODO: Will need to set all input based interactions in here eventually*/
+	var x = Cypress.$($region);
+	for(var i=0;i<x.length;i++){
+   		for(var j=0;j<x[i].length;j++){
+      		x[i].children[j].removeAttribute($attribute);
+   		}
+		}
+   	for(var i=0;i<x.length;i++){
+       var findOptions=x[i].getElements($selector);
        var TheOne=Math.floor(Math.random()*findOptions.length);
+       console.log(findOptions[TheOne]);
        findOptions[TheOne].setAttribute($attribute,$attribute);
-   }
+    }
 }
+
+
