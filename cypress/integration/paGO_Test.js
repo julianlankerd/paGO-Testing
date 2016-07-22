@@ -1,7 +1,7 @@
 //Important variables. These are here so that no one has to keep changing the variables.
 var	username="admin",
 password="admin",
-domain="http://localhost/",
+domain="http://127.0.0.1/",
 frontEnd=domain+"Mr.Bince-is-my-Hero%3C3/",
 backEnd=frontEnd+"administrator/";
 var temp=HTMLText.splice(HTMLText);
@@ -31,3 +31,5 @@ describe('Full paGO Testing',function(){
 })
 
 //Selects a random option for each 'select' element that's a child of the region
+
+//how to connect to a localhost from 
