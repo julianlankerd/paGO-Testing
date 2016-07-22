@@ -1,4 +1,4 @@
-//paGO Front-End Test Important variables. These are here 
+//Important variables. These are here so that no one has to keep changing the variables.
 var	username="admin",
 password="admin",
 domain="http://localhost/",

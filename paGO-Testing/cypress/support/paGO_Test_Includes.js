@@ -1,5 +1,3 @@
-
-
 var	_=Cypress._,
 	$=Cypress.$;
 
@@ -155,7 +153,7 @@ checkSets("noSpace");
 checkSets("kybdChars");
 checkSets("HTMLText");*/
 
-//TEST THIS!
+
 function randomString($argsObj={maxLen:1,minLen:1,charSet:ascii,embed:""}){//Generates a random string; geared to work with HTML tags and text
 	var callNum=0;
 	var len=Math.floor(Math.random()*($argsObj.maxLen+1-$argsObj.minLen)+$argsObj.minLen);//Determines the length of the resultant string

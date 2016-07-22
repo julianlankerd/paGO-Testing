@@ -9,20 +9,23 @@ function PagoDash(){
 function errorScan(){
     var errorFields = Cypress.$('label.label-error');
 		for(var j=0;j<errorFields.length;j++){
-			errorFields[j].getParent().getElements('input')[0].value=randomString({maxLen:8,minLen:2,charSet:nums, embed:''});
+			errorFields[j].getParent().getElements('input')[0].value=randomString({maxLen:8,minLen:1,charSet:nums, embed:''});
 		}
 }
 /*A very hard-handed way to drop input into all text fields... Need to find a better solution one of these days*/
 function Input(){
 	var inputFields=Cypress.$('[type="text"]')
 	for(var i=0;i<inputFields.length;i++){
-		inputFields[i].value=randomString({maxLen:5,minLen:1,charSet:nums.splice(centerKybd.splice(centerKybd.splice(centerKybd.splice(centerKybd)))), embed:''});
+		inputFields[i].value=randomString({maxLen:30,minLen:1,charSet:nums.splice(centerKybd.splice(centerKybd.splice(centerKybd.splice(centerKybd)))), embed:''});
 	}
 }
 
-
+/*function globbedGarbage($maxLen, $minLen){
+	var Garbage=ascii.splice(nums.splice(centerKybd.splice(symbols)));
+	//temp=temp.splice(temp);
+	//var Garbage = randomString({$maxLen, $minLen, charSet:centerKybd})
+}*/
 /*This function will generate a random product*/
-
 function CreateProduct(){
 	cy
 
@@ -39,16 +42,14 @@ function CreateProduct(){
 		cy.get("#pago_toolbar > button:nth-child(2)").click(); //This is going to try and save the product (Errors are to be expected)
 		cy.then(function($bbb){
 			errorScan()//This is going to scan all for all error labels, find the sibling text field associated
-			//SelectRandom('fieldset', 'input', 'checked');
-			//SelectRandom('select', 'option');
 			cy.get('[title="Toggle editor"]').click({multiple: true})
 			.get("#params\\5b description\\5d").type(randomString({maxLen:100,minLen:90,charSet:centerKybd.splice(temp),embed:""}))
 			.get("#params\\5b content\\5d").type(randomString({maxLen:100,minLen:90,charSet:centerKybd.splice(temp),embed:""}))
 			.get('[title="Toggle editor"]').click({multiple: true})	
 			cy.get('#main-1 > ul').find('input').check({force: true})
 			.get('#ui-id-6').click()
-			.get('#params\\5b meta\\5d \\5b keywords\\5d').type(randomString({maxLen:100,minLen:90,charSet:centerKybd.splice(temp),embed:""}))
-			.get('#params\\5b meta\\5d \\5b description\\5d').type(randomString({maxLen:100,minLen:90,charSet:centerKybd.splice(temp),embed:""}))
+			.get('#params\\5b meta\\5d \\5b keywords\\5d').type(randomString({maxLen:100,minLen:90,charSet:centerKybd.splice(whiteSpace),embed:""}))
+			.get('#params\\5b meta\\5d \\5b description\\5d').type(randomString({maxLen:100,minLen:90,charSet:centerKybd.splice(whiteSpace),embed:""}))
 			cy.get('#pago_toolbar > button.apply.pg-btn-medium.pg-btn-dark.pg-btn-green').click()	//and save it
 		}).end()
 	}).end()
@@ -103,6 +104,20 @@ function CreateCategory(){
 			/*Get rid of every Category item*/
 			//.get('#checkall').check({force:true})			
 			//.get('#pago_toolbar > button.delete').click({force:true})
+}
+
+/*This is going to Create a new attribute*/
+function CreateAttribute(){
+	cy.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > div > ul > li:nth-child(3) > a').click()
+	cy.get('#pago_toolbar > button.new.pg-btn-medium.pg-btn-green.pg-btn-dark').click()
+	cy.then(function($aaa){
+		SelectRandom('fieldset', 'input', 'checked');
+		SelectRandom('select', 'option');
+		cy.get('#pago > div.pg-main-container.clearfix > div > div').find().click()
+		Input()
+		cy.get('#addAttribute > div > div.pg-pad-20.text-center > button').click()
+	}).end()
+
 }
 
 /*This is going to test SEO wingman*/
