@@ -1,6 +1,6 @@
 {
 	"projectId": "a916f8d5-dfef-4b8b-932d-0a703bb90365",
-	"port": 80,
+	"port": 8080,
 	"reporter": "spec",
 	"baseUrl": "",
 	"execTimeout": "60000",
