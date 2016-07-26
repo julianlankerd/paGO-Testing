@@ -20,11 +20,6 @@ function Input(){
 	}
 }
 
-/*function globbedGarbage($maxLen, $minLen){
-	var Garbage=ascii.splice(nums.splice(centerKybd.splice(symbols)));
-	//temp=temp.splice(temp);
-	//var Garbage = randomString({$maxLen, $minLen, charSet:centerKybd})
-}*/
 /*This function will generate a random product*/
 function CreateProduct(){
 	cy
