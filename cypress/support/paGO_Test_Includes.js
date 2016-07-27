@@ -137,114 +137,106 @@ var kybdChars=charSet("kybdChars");
 var HTMLText=charSet("HTMLText");
 
 /*Generates a random string; geared to work with HTML tags and text*/
-function randomString($argsObj){
-    if(!checkExists($argsObj.maxLen)){
-        $argsObj.maxLen=1;
-    }
-    if(!checkExists($argsObj.minLen)){
-        $argsObj.minLen=1;
-    }
-    if(!checkExists($argsObj.charSet)){
-        $argsObj.charSet=ascii;
-    }
-    if(!checkExists($argsObj.embed)){
-        $argsObj.embed="";
-    }
-    var calls=0;
-    var len=Math.floor(Math.random()*($argsObj.maxLen+1-$argsObj.minLen))+$argsObj.minLen;//Determines the length of the resultant string
-    var callEmbed=Math.floor(Math.random()*len);//The instance that the embedded string should be embedded in
-    var posEmbed=Math.floor(Math.random()*3);//The position in which the string should be embedded within its instance
-    var starts=$argsObj.charSet.starts,    //Make some variables easier to access
-    ends=$argsObj.charSet.ends,        //
-    embed=$argsObj.embed;            //
-    var ranges=function(numSegments,limit){
-        var points=[];
-        for(var i=0;i<numSegments-1;i++){
-            points[i]=Math.floor(Math.random()*(limit+1));
-        }
-        for(var i=0;i<points.length;i++){
-            for(var j=i+1;j<points.length;j++){
-                if(points[i]<points[j]){
-                    var temp=points[i];
-                    points[i]=points[j];
-                    points[j]=temp;
-                }
-            }
-        }
-        var segments=[];
-        for(var i=1;i<points.length;i++){
-            segments[i]=points[i-1]-points[i];
-        }
-        segments[0]=limit-points[0];
-        segments[points.length]=points[points.length-1];
-        return segments;
-    }
-    var generator=function(iterations){//This is easier to make recursive if it's named
-        var result="";
-        var strArr=["","","","","","","","",""];//The resultant string will be built with this
-        if(iterations>0){//Die if we're done
-            segments=ranges(3,iterations-1);
-            var lenSub=segments[0],
-            lenSideA=segments[1],
-            lenSideB=segments[2];
-            var index=Math.floor(Math.random()*starts.length);
-            strArr[0]=generator(lenSideA);
-            var temp=starts[index];
-            if(temp=='{'){
-                strArr[2]='{{}';
-            }else{
-                strArr[2]=temp;
-            }
-            temp=ends[index];
-            if(temp=='{'){
-                strArr[6]='{{}';
-            }else{
-                strArr[6]=temp;
-            }
-            calls++;
-            if(calls-1==callEmbed){            //If we're in the right position then add in the embedded string
-                switch(posEmbed){        //
-                    case 0:            //
-                        strArr[1]=embed;//
-                        strArr[3]=generator(lenSub);
-                        break;        //
-                    case 1:            //
-                        var lenSubA=Math.floor(Math.random()*(lenSub+1));
-                        var lenSubB=lenSub-lenSubA;
-                        strArr[3]=generator(lenSubA);
-                        strArr[4]=embed;
-                        strArr[5]=generator(lenSubB);
-                        break;        //
-                    case 2:            //
-                        strArr[5]=generator(lenSub);
-                        strArr[7]=embed;//
-                        break;        //
-                    default:        //
-                        break;        //
-                }                //
-            }else{                    //
-                strArr[3]=generator(lenSub);
-            }
-            strArr[8]=generator(lenSideB);
-        }
-        if((calls==callEmbed)&&(Math.floor(Math.random()*2))){    //Scramble the embedded string and the random string that it's adjacent to around
-            var temp=strArr[3];                //
-            strArr[3]=strArr[4];                //
-            strArr[4]=temp;                    //
-            temp=strArr[7];                    //
-            strArr[7]=strArr[8];                //
-            strArr[8]=temp;                    //
-        }                            //
-        for(var i=0;i<strArr.length;i++){    //Build the return and result it
-            result+=strArr[i];        //Yes, I did just say that.  
-        }                    //
-        return result;                //
-    }
-    if(len<0){
-        return embed;
-    }else{
-        return generator(len);//GO!
-    }
+function randomString($argsObj){//Generates a random string; geared to work with HTML tags and text
+	if(!checkExists($argsObj.maxLen)){
+		$argsObj.maxLen=1;
+	}
+	if(!checkExists($argsObj.minLen)){
+		$argsObj.minLen=1;
+	}
+	if(!checkExists($argsObj.charSet)){
+		$argsObj.charSet=ascii;
+	}
+	if(!checkExists($argsObj.embed)){
+		$argsObj.embed="";
+	}
+	var calls=0;
+	var len=Math.floor(Math.random()*($argsObj.maxLen+1-$argsObj.minLen))+$argsObj.minLen;//Determines the length of the resultant string
+	var callEmbed=Math.floor(Math.random()*len);//The instance that the embedded string should be embedded in
+	var posEmbed=Math.floor(Math.random()*3);//The position in which the string should be embedded within its instance
+	var starts=$argsObj.charSet.starts,	//Make some variables easier to access
+	ends=$argsObj.charSet.ends,		//
+	embed=$argsObj.embed;			//
+	var ranges=function(numSegments,limit){
+		var points=[];
+		for(var i=0;i<numSegments-1;i++){
+			points[i]=Math.floor(Math.random()*(limit+1));
+		}
+		for(var i=0;i<points.length;i++){
+			for(var j=i+1;j<points.length;j++){
+				if(points[i]<points[j]){
+					var temp=points[i];
+					points[i]=points[j];
+					points[j]=temp;
+				}
+			}
+		}
+		var segments=[];
+		for(var i=1;i<points.length;i++){
+			segments[i]=points[i-1]-points[i];
+		}
+		segments[0]=limit-points[0];
+		segments[points.length]=points[points.length-1];
+		return segments;
+	}
+	var generator=function(iterations){//This is easier to make recursive if it's named
+		var result="";
+		var strArr=["","","","","","","","",""];//The resultant string will be built with this
+		if(iterations>0){//Die if we're done
+			var segments=ranges(3,iterations-1);
+			var lenSideA=segments[0],
+			lenSubA=segments[1],
+			lenSubB=0,
+			lenSideB=segments[2];
+			var index=Math.floor(Math.random()*starts.length);
+			var temp=starts[index];
+			if(temp=='{'){
+				strArr[2]='{{}';
+			}else{
+				strArr[2]=temp;
+			}
+			temp=ends[index];
+			if(temp=='{'){
+				strArr[6]='{{}';
+			}else{
+				strArr[6]=temp;
+			}
+			calls++;
+			if(calls-1==callEmbed){					//If we're in the right position then add in the embedded string
+				switch(posEmbed){				//
+					case 0:					//
+						strArr[1]=embed;		//
+						break;				//
+					case 1:					//And make this random segment two-sided
+						strArr[4]=embed;		//
+						segments=ranges(4,iterations-1);//
+						lenSideA=segments[0];		//
+						lenSubA=segments[1];		//
+						lenSubB=segments[2];		//
+						lenSideB=segments[3];		//
+						break;				//
+					case 2:					//
+						strArr[7]=embed;		//
+						break;				//
+					default:				//
+						break;				//
+				}						//
+			}							//
+			strArr[0]=generator(lenSideA);
+			strArr[3]=generator(lenSubA);
+			strArr[5]=generator(lenSubB);
+			strArr[8]=generator(lenSideB);
+		}
+		for(var i=0;i<strArr.length;i++){	//Build the return and result it
+			result+=strArr[i];		//Yes, I did just say that.  
+		}					//
+		return result;				//
+	}
+	if(len<0){
+		return embed;
+	}else{
+		return generator(len);//GO!
+	}
 }
 
 function checkExists($a){//Needs work
@@ -320,5 +312,3 @@ function SelectRandom($region,$selector,$attribute='selected'){
        findOptions[TheOne].setAttribute($attribute,$attribute);
     }
 }
-
-
