@@ -10,7 +10,13 @@
 			}
 			function charSet(type){
 				var newObj={starts:[],ends:[]};
-				newObj.splice=(function(obj={}){//Appends the 'starts' and 'ends' arrays of one object to another
+				newObj.getSize=function(){
+					return this.starts.length>this.ends.length?this.starts.length:this.ends.length;
+				}
+				newObj.splice=function(obj){//Appends the 'starts' and 'ends' arrays of one object to another
+					if(typeof(obj)!="object"||!checkExists(obj.getSize)||!checkExists(obj.starts)||!checkExists(obj.ends)){
+						obj=charSet("empty");
+					}
 					var result=new charSet("empty");
 					var inc=this.getSize();
 					for(var i=0;i<inc;i++){
@@ -22,23 +28,10 @@
 						result.ends[i+inc]=obj.ends[i];
 					}
 					return result;
-				})
-				newObj.set=(function(obj=this){//Overwrites this object with a new one
-					var inc=this.getSize();
-					for(var i=0;i<obj.getSize();i++){
-						this.starts[inc+i]=obj.starts[i];
-						this.ends[inc+i]=obj.ends[i];
-					}
-					if(inc>obj.getSize()){
-						for(var i=obj.getSize;i<this.getSize;i++){
-							this.starts[i]=this.ends[i]=undefined;
-						}
-					}
-					return true;
-				})
-				newObj.getSize=(function(){
-					return this.starts.length>this.ends.length?this.starts.length:this.ends.length;
-				})
+				}
+				if(typeof(type)!="string"){
+					type="";
+				}
 				switch(type){
 					case "empty":
 						break;
@@ -83,18 +76,18 @@
 						}
 						break;
 					case "qwerty":
-						newObj.set((new charSet("lower")).splice(new charSet("upper")));
+						newObj=charSet("lower").splice(charSet("upper"));
 						break;
 					case "centerKybd":
-						newObj.set((new charSet("nums")).splice(new charSet("qwerty")));
+						newObj=charSet("nums").splice(charSet("qwerty"));
 						newObj.starts[newObj.starts.length]=' ';
 						newObj.ends[newObj.ends.length]='';
 						break;
 					case "noSpace":
-						newObj.set((new charSet("symbols")).splice(new charSet("nums")).splice(new charSet("qwerty")));
+						newObj=charSet("symbols").splice(charSet("nums")).splice(charSet("qwerty"));
 						break;
 					case "kybdChars":
-						newObj.set(new charSet("noSpace"));
+						newObj=charSet("noSpace");
 						newObj.starts[newObj.starts.length]=' ';
 						newObj.ends[newObj.ends.length]='';
 						break;
