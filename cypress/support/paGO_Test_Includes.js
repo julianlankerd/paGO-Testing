@@ -29,7 +29,7 @@ function charSet(type){
 		case "empty":
 			break;
 		case "whiteSpace":
-			var spaces="\f\n\r\t\v";
+			var spaces="\f\n\r\t\v ";
 			for(var i=0;i<spaces.length;i++){
 				newObj.starts[i]=spaces[i];
 				newObj.ends[i]='';
