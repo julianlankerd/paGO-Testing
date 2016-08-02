@@ -89,13 +89,15 @@ function charSet(type){
 			"<em>",
 			"<i>",
 			"<u>",
-			"<s>"
+			"<s>",
+			"<script>"
 			];
 			newObj.ends=[
 			"</em>",
 			"</i>",
 			"</u>",
-			"</s>"
+			"</s>",
+			"</script>"
 			];
 			break;
 		default://Go on and add your own character set!
@@ -299,7 +301,18 @@ function SelectRandom($region,$selector,$attribute='selected'){
    	for(var i=0;i<x.length;i++){
        var findOptions=x[i].getElements($selector);
        var TheOne=Math.floor(Math.random()*findOptions.length);
-       console.log(findOptions[TheOne]);
+      // console.log(findOptions[TheOne]);
        findOptions[TheOne].setAttribute($attribute,$attribute);
     }
 }
+/*Hexadecimal generator. This is simply used for any color changing aspects of paGO*/
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+
