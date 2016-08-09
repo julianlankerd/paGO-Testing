@@ -1,9 +1,9 @@
 //Important variables. These are here so that no one has to keep changing the variables.
 var	username="admin",
 password="admin",
-domain="http://localhost/",
-frontEnd=domain+"Mr.Bince-is-my-Hero%3C3/",
-backEnd=frontEnd+"administrator/";
+domain="http://dev-aws.corephp.com",
+frontEnd=domain+"/pago/src/",
+backEnd=frontEnd+"administrator/index.php?option=com_pago";
 var temp=HTMLText.splice(HTMLText);
 temp=temp.splice(temp);
 /*What we call Input Sanitization Hell.... Malbolge has all the nasty characters sets to test if a standard input field is sanitized correctly*/
@@ -16,7 +16,7 @@ describe('Full paGO Testing',function(){
 	
 	afterEach('',function(){
 		cy.end()
-		cy.visit('http://localhost/Mr.Bince-is-my-Hero%3C3/administrator/index.php?option=com_pago')
+		cy.visit(backend)
 	})
 
 	context('paGO back-end',function(){
