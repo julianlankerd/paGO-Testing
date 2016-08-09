@@ -24,6 +24,8 @@ describe('Full paGO Testing',function(){
 			/*Go to the back end of Joomla! and navigate to the paGO dashboard*/
 			//pagoDash()
 			cy.visit(backEnd)
+			cy.get('#mod-login-username').type('admin')
+			cy.get('#mod-login-password').type('dev123')
 			/*===CONFIG===*/
 			
 			/*Create a new Tax Rule, and class with it */
