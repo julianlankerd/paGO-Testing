@@ -8,6 +8,8 @@ function createSystem(){
 		cy.get('#new_currency_code_chosen > a').click()
 		cy.get('#new_currency_code_chosen > div > ul > li:nth-child(23)').click()
 		Input('#new-currency-modal')
+		Input('#new-currency-symbol')
+		//cy.get('#new-currency-symbol').type(randomString({maxLen:30,minLen:1,charSet:centerKybd.splice(ascii.splice(symbols.splice(nums.splice(whiteSpace)))), embed:''}))
 		cy.get("#new-currency-modal > div > div.pg-pad-20.text-center > button").contains("Add").click(); //This is going to (try and) save the product
 	}).end()
 	cy.get("#pago_toolbar").contains("Save").click(); //This is going to (try and) save the product
