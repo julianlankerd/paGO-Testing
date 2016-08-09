@@ -16,23 +16,44 @@ describe('Full paGO Testing',function(){
 	
 	afterEach('',function(){
 		cy.end()
+		cy.visit('http://localhost/Mr.Bince-is-my-Hero%3C3/administrator/index.php?option=com_pago')
 	})
 
 	context('paGO back-end',function(){
 		it('Do everything in the back-end with this \'it\' function since otherwise it won\'t work :(',function(){
 			/*Go to the back end of Joomla! and navigate to the paGO dashboard*/
 			pagoDash()
+			
+			/*===CONFIG===*/
+			
+			/*Create a new Tax Rule, and class with it */
+			createTaxRule()
+
+			/*work inside "MANAGE SYSTEM*/
+			createSystem()
+
+			/*Create a new shipping rule*/
+			createCustomShipping()
+			
+			/*===SHOP===*/
+			
 			/*This is going to test the Category Section in the back-end of paGO*/
-			//createCategory()
-			/*This is going to begin testing the Products Section in the back-end of paGO*/
-			//createProduct()
+			createCategory()
+			
 			/*This is going to create a new Attribute*/
-			//createAttribute()
+			createAttribute()
 			
 			/*This is going to create Coupons*/
 			createCoupon()
+			
+			/*This is going to create a new Discount*/			
+			createDiscount()
+
 			/*This will Work Wingman*/
 			//seoWingman()
+
+			/*This is going to begin testing the Products Section in the back-end of paGO*/
+			createProduct()
 		})
 	})
 })

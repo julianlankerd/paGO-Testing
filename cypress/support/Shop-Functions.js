@@ -15,13 +15,20 @@ function errorScan(){
 		}
 }
 /*A very hard-handed way to drop input into all text fields... Need to find a better solution one of these days*/
-function Input(){
-	var inputFields=Cypress.$('input[type="text"]');
-	for(var i=0;i<inputFields.length;i++){
-		inputFields[i].value=randomString({maxLen:30,minLen:1,charSet:centerKybd.splice(ascii.splice(symbols.splice(nums.splice(whiteSpace)))), embed:''});
+function Input(tab, charChoice='All'){
+	if(charChoice == "All"){
+		var inputFields=Cypress.$(tab+' input[type="text"]');
+		for(var i=0;i<inputFields.length;i++){
+			return inputFields[i].value=randomString({maxLen:30,minLen:1,charSet:centerKybd.splice(ascii.splice(symbols.splice(nums.splice(whiteSpace)))), embed:''});
+		}
+	} 
+	else if(charChoice == 'Number'){
+		var inputFields=Cypress.$(tab+' input[type="text"]');
+		for(var i=0;i<inputFields.length;i++){
+			return inputFields[i].value=randomString({maxLen:10,minLen:1,charSet:nums, embed:''});
+		}
 	}
 }
-
 /*This function will generate a random product*/
 function createProduct(){
 	cy
@@ -33,7 +40,7 @@ function createProduct(){
 	cy.then(function($aaa){
 		SelectRandom('fieldset', 'input', 'checked');
 		SelectRandom('select', 'option');
-		Input()//This is going to find all text fields and fire garbage into said fields
+		Input('#tabs')//This is going to find all text fields and fire garbage into said fields
 		cy.get("#pago_toolbar").contains("Save & Close").click(); //This is going to try and save the product (Errors are to be expected)
 		cy.then(function($bbb){
 			errorScan()//This is going to scan all for all error labels, find the sibling text field associated
@@ -48,7 +55,7 @@ function createProduct(){
 			cy.get('#pago_toolbar > button.apply.pg-btn-medium.pg-btn-dark.pg-btn-green').click()	//and save it
 		}).end()
 	}).end()
-
+cy.visit('http://localhost/Mr.Bince-is-my-Hero%3C3/administrator/index.php?option=com_pago')
 
 		
 	//.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > a').click()//Go to the shop (product view)
@@ -94,7 +101,7 @@ function createCategory(){
 																		//
 			.get("#pago_toolbar > button:nth-child(3)").click()//Save and new
 			.get("#pago_toolbar > button:nth-child(4)").click()//Cancel the new category
-			
+			cy.visit('http://localhost/Mr.Bince-is-my-Hero%3C3/administrator/index.php?option=com_pago')
 			/*Get rid of every Category item*/
 			//.get('#checkall').check({force:true})			
 			//.get('#pago_toolbar > button.delete').click({force:true})
@@ -106,29 +113,48 @@ function createAttribute(){
 	cy.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > div > ul').contains('Attributes').click()
 	cy.get('#pago_toolbar').contains("New").click()
 	cy.then(function($aaa){		
-		Input()//This is going to find all text fields and fire garbage into said fields
+		Input('#tabs')//This is going to find all text fields and fire garbage into said fields
 		SelectRandom('fieldset', 'input', 'checked');
 		SelectRandom('select', 'option');
 		cy.get("#pago_toolbar").contains("Save & Close").click(); //This is going to try and save the product (Errors are to be expected)
 	}).end()
+	cy.visit('http://localhost/Mr.Bince-is-my-Hero%3C3/administrator/index.php?option=com_pago')
 }
-/*Create a coupon*/
+
+/*Create a new coupon*/
 function createCoupon(){
 	cy.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop > span').click()//Click on the 'caret' then Drop the shop menu down
 	cy.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > div > ul').contains('Coupons').click()
 	cy.get('#pago_toolbar').contains("New").click()
 	cy.then(function($aaa){		
-		Input()//This is going to find all text fields and fire garbage into said fields
+		Input('#pago > div.pg-main-container.clearfix > div > div > div')//This is going to find all text fields and fire garbage into said fields
 		SelectRandom('fieldset', 'input', 'checked');
 		SelectRandom('select', 'option');
 		Cypress.$('#params_start')[0].value = "2000-01-01";//Set a start
 		Cypress.$('#params_end')[0].value = "2099-01-01";//Set an end date
-		Cypress.$('#pg-rule-container > div.pg-rule-inputs.pg-row > div:nth-child(2) > input[type="text"]')[0].value = randomString({maxLen:4,minLen:1,charSet:nums});
+		Cypress.$('#pg-rule-container > div.pg-rule-inputs.pg-row > div:nth-child(2) > input[type="text"]')[0].value = randomString({maxLen:4,minLen:1,charSet:nums}); //Set up an actual discount
 
 		cy.get("#pago_toolbar").contains("Save & Close").click(); //This is going to try and save the product (Errors are to be expected)
 	}).end()
+	cy.visit('http://localhost/Mr.Bince-is-my-Hero%3C3/administrator/index.php?option=com_pago')
 }
-
+/*Create A new Discount*/
+function createDiscount(){
+	cy.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop > span').click()//Click on the 'caret' then Drop the shop menu down
+	cy.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > div > ul').contains('Discounts').click()
+	cy.get('#pago_toolbar').contains("New").click()
+	cy.then(function($aaa){		
+		Input('#pago > div.pg-main-container.clearfix > div > div')//This is going to find all text fields and fire garbage into said fields
+		SelectRandom('fieldset', 'input', 'checked');
+		SelectRandom('select', 'option');
+		Cypress.$('#params_start_date')[0].value = "2000-01-01";//Set a start
+		Cypress.$('#params_end_date')[0].value = "2999-01-01";//Set an End
+		Cypress.$('#params_discount_amount')[0].value = randomString({maxLen:4,minLen:1,charSet:nums});
+		//Input()//This is going to find all text fields and fire garbage into said fields
+		cy.get("#pago_toolbar").contains("Save & Close").click(); //This is going to try and save the product (Errors are to be expected)
+	}).end()
+	cy.visit('http://localhost/Mr.Bince-is-my-Hero%3C3/administrator/index.php?option=com_pago')
+}
 
 /*This is going to test SEO wingman*/
 function SeoWingman(){
@@ -147,5 +173,6 @@ function SeoWingman(){
 	cy.get('#formly_13_input_number_0').type('4242424242424242') //Test Card
 	cy.get('#formly_13_input_cvc_1').type('4321') //test CVC
 	cy.get('#subscribeForm > div > div > ng-form > div:nth-child(7) > div > button').click() //Subscribe
+	cy.visit('http://localhost/Mr.Bince-is-my-Hero%3C3/administrator/index.php?option=com_pago')
 }
 
