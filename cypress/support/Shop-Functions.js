@@ -55,7 +55,7 @@ function createProduct(){
 			cy.get('#pago_toolbar > button.apply.pg-btn-medium.pg-btn-dark.pg-btn-green').click()	//and save it
 		}).end()
 	}).end()
-cy.visit(backend)
+cy.visit(backEnd)
 
 		
 	//.get('#pago > div.pg-sidebar > ul > li.pg-menu-shop.open > a').click()//Go to the shop (product view)
@@ -101,7 +101,7 @@ function createCategory(){
 																		//
 			.get("#pago_toolbar > button:nth-child(3)").click()//Save and new
 			.get("#pago_toolbar > button:nth-child(4)").click()//Cancel the new category
-			cy.visit(backend)
+			cy.visit(backEnd)
 			/*Get rid of every Category item*/
 			//.get('#checkall').check({force:true})			
 			//.get('#pago_toolbar > button.delete').click({force:true})
@@ -118,7 +118,7 @@ function createAttribute(){
 		SelectRandom('select', 'option');
 		cy.get("#pago_toolbar").contains("Save & Close").click(); //This is going to try and save the product (Errors are to be expected)
 	}).end()
-	cy.visit(backend)
+	cy.visit(backEnd)
 }
 
 /*Create a new coupon*/
@@ -136,7 +136,7 @@ function createCoupon(){
 
 		cy.get("#pago_toolbar").contains("Save & Close").click(); //This is going to try and save the product (Errors are to be expected)
 	}).end()
-	cy.visit(backend)
+	cy.visit(backEnd)
 }
 /*Create A new Discount*/
 function createDiscount(){
@@ -153,7 +153,7 @@ function createDiscount(){
 		//Input()//This is going to find all text fields and fire garbage into said fields
 		cy.get("#pago_toolbar").contains("Save & Close").click(); //This is going to try and save the product (Errors are to be expected)
 	}).end()
-	cy.visit(backend)
+	cy.visit(backEnd)
 }
 
 /*This is going to test SEO wingman*/
@@ -173,6 +173,6 @@ function SeoWingman(){
 	cy.get('#formly_13_input_number_0').type('4242424242424242') //Test Card
 	cy.get('#formly_13_input_cvc_1').type('4321') //test CVC
 	cy.get('#subscribeForm > div > div > ng-form > div:nth-child(7) > div > button').click() //Subscribe
-	cy.visit(backend)
+	cy.visit(backEnd)
 }
 

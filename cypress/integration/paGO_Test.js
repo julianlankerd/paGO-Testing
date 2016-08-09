@@ -16,7 +16,7 @@ describe('Full paGO Testing',function(){
 	
 	afterEach('',function(){
 		cy.end()
-		cy.visit(backend)
+		cy.visit(backEnd)
 	})
 
 	context('paGO back-end',function(){

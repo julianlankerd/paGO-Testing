@@ -13,7 +13,7 @@ function createSystem(){
 		cy.get("#new-currency-modal > div > div.pg-pad-20.text-center > button").contains("Add").click(); //This is going to (try and) save the product
 	}).end()
 	cy.get("#pago_toolbar").contains("Save").click(); //This is going to (try and) save the product
-	cy.visit(backend)
+	cy.visit(backEnd)
 }
 /*Create a new Tax class and Rule*/
 function createTaxRule(){
@@ -36,7 +36,7 @@ function createTaxRule(){
 		Cypress.$('#params_pgtax_rate')[0].value = randomString({maxLen:8,minLen:1,charSet:nums, embed:''});
 	})
 	cy.get("#pago_toolbar").contains("Save & Close").click(); //This is going to (try and) save the product
-	cy.visit(backend)
+	cy.visit(backEnd)
 }
 
 function createCustomShipping(){
@@ -52,5 +52,5 @@ function createCustomShipping(){
 		SelectRandom('select', 'option');
 	})
 	cy.get("#pago_toolbar").contains("Save & Close").click(); //This is going to (try and) save the product
-	cy.visit(backend)
+	cy.visit(backEnd)
 }
