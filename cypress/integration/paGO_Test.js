@@ -22,8 +22,8 @@ describe('Full paGO Testing',function(){
 	context('paGO back-end',function(){
 		it('Do everything in the back-end with this \'it\' function since otherwise it won\'t work :(',function(){
 			/*Go to the back end of Joomla! and navigate to the paGO dashboard*/
-			pagoDash()
-			
+			//pagoDash()
+			cy.visit(backEnd)
 			/*===CONFIG===*/
 			
 			/*Create a new Tax Rule, and class with it */
